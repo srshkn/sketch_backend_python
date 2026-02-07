@@ -3,8 +3,8 @@ from sqlalchemy.orm import sessionmaker
 from sqlmodel import Field, SQLModel
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from config.сonfig import Config, load_config
-from utils.utils import ENV_FILE
+from src.config.сonfig import Config, load_config
+from src.utils.utils import ENV_FILE
 
 config: Config = load_config(ENV_FILE)
 DATABASE_URL = config.databasesession.database_url
