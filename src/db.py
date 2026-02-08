@@ -1,14 +1,20 @@
+from functools import lru_cache
+
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import Field, SQLModel
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from src.config.сonfig import Config, load_config
-from src.utils.utils import ENV_FILE
+from src.config.settings import Settings
 
-config: Config = load_config(ENV_FILE)
-DATABASE_URL = config.databasesession.database_url
-engine = create_async_engine(DATABASE_URL, echo=True)
+
+@lru_cache
+def get_settings() -> Settings:
+    return Settings()
+
+
+settings = get_settings()
+engine = create_async_engine(settings.DB_URL, echo=True)
 
 
 class UserOut(SQLModel):
