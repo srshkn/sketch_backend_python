@@ -1,19 +1,17 @@
-from functools import lru_cache
-
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import sessionmaker
+from sqlmodel import SQLModel
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from src.core.settings import Settings
-
-
-@lru_cache
-def get_settings() -> Settings:
-    return Settings()
-
+from src.core.settings import get_settings
 
 settings = get_settings()
 engine = create_async_engine(settings.DB_URL, echo=True)
+
+
+async def create_db_and_tables():
+    async with engine.begin() as conn:
+        await conn.run_sync(SQLModel.metadata.create_all)
 
 
 async def get_session():
