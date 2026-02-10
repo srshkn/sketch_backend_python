@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, timezone
+from typing import Annotated
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -48,7 +49,8 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
 
 # Получение текущего пользователя
 def get_current_user(
-    token: str = Depends(oauth2_scheme), db: Session = Depends(get_session)
+    token: Annotated[str, Depends(oauth2_scheme)],
+    db: Annotated[Session, Depends(get_session)],
 ):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -62,15 +64,15 @@ def get_current_user(
         username: str | None = payload.get("sub")
         if username is None:
             raise credentials_exception
-    except JWTError:
-        raise credentials_exception
+    except JWTError as e:
+        raise credentials_exception from e
     user = db.exec(select(User).where(User.username == username)).first()
     if user is None:
         raise credentials_exception
     return user
 
 
-def get_current_active_user(current_user: User = Depends(get_current_user)):
+def get_current_active_user(current_user: Annotated[User, Depends(get_current_user)]):
     if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user

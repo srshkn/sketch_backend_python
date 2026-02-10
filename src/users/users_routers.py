@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
 
@@ -12,7 +14,9 @@ session = get_session()
 
 # Регистрация
 @router_user.post("/register", response_model=UserOut)
-async def register(create_user: CreateUser, db: Session = Depends(get_session)):
+async def register(
+    create_user: CreateUser, db: Annotated[Session, Depends(get_session)]
+):
     result = await db.exec(select(User).where(User.username == create_user.username))
     db_user = result.first()
     if db_user:
