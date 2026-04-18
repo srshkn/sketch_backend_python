@@ -7,6 +7,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     # App
     PROJECT_NAME: str
+    PROJECT_DESCRIPTION: str
+    PROJECT_VERSION: str
     API_V1_STR: str
 
     # PostgreSQL
@@ -17,15 +19,15 @@ class Settings(BaseSettings):
     POSTGRES_DB: str
 
     # JWT
-    SECRET_KEY: str
-    ALGORITHM: str
-    ACCESS_TOKEN_EXPIRE_MINUTES: int
+    JWT_SECRET: str
+    JWT_ALGORITHM: str
+    JWT_EXPIRE_MINUTES: int
 
     @computed_field
     @property
     def DB_URL(self) -> PostgresDsn:
         return (
-            f"postgresql+psycopg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
+            f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
             f"@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
         )
 
