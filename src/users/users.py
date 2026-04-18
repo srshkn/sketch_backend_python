@@ -8,9 +8,9 @@ from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 from sqlmodel import select
 
-from src.core.settings import get_settings
-from src.database.db import get_session
-from src.database.models import User
+from core.settings import get_settings
+from db import get_session
+from models import User
 
 # Настройки
 settings = get_settings()

@@ -4,7 +4,7 @@ from sqlalchemy import String
 from sqlalchemy.dialects.postgresql import TEXT, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.db import Base
+from db import Base
 
 
 # Таблица пользователей

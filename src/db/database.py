@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
-from src.core import get_settings
+from core import get_settings
 
 from .base import Base
 

@@ -3,17 +3,17 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
 
-from src.db import get_session
-from src.models import User
-from src.schemas import UserCreate, UserOut
-from src.users.users import get_password_hash
+from db import get_session
+from models import User
+from schemas import UserCreate, UserOut
+from users.users import get_password_hash
 
-router_user = APIRouter()
+router = APIRouter()
 session = get_session()
 
 
 # Регистрация
-@router_user.post("/register", response_model=UserOut)
+@router.post("/register", response_model=UserOut)
 async def register(
     create_user: UserCreate, db: Annotated[Session, Depends(get_session)]
 ):
@@ -34,11 +34,11 @@ async def register(
 
 
 # Логин
-@router_user.post("/token")
+@router.post("/token")
 def login_for_access_token():
     pass
 
 
-@router_user.get("/users/me")
+@router.get("/users/me")
 def read_users_me():
     pass
