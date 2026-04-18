@@ -1,9 +1,10 @@
+import uuid
+
+from sqlalchemy import String
+from sqlalchemy.dialects.postgresql import TEXT, UUID
+from sqlalchemy.orm import Mapped, mapped_column
 
 from src.db import Base
-from sqlalchemy import String
-from sqlalchemy.dialects.postgresql import UUID, TEXT
-import uuid
-from sqlalchemy.orm import Mapped, mapped_column
 
 
 # Таблица пользователей

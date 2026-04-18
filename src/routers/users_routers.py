@@ -3,9 +3,9 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
 
-from src.database.db import get_session
-from src.database.models import User, UserOut
-from src.users.models import CreateUser
+from src.db import get_session
+from src.models import User
+from src.schemas import UserCreate, UserOut
 from src.users.users import get_password_hash
 
 router_user = APIRouter()
@@ -15,7 +15,7 @@ session = get_session()
 # Регистрация
 @router_user.post("/register", response_model=UserOut)
 async def register(
-    create_user: CreateUser, db: Annotated[Session, Depends(get_session)]
+    create_user: UserCreate, db: Annotated[Session, Depends(get_session)]
 ):
     result = await db.exec(select(User).where(User.username == create_user.username))
     db_user = result.first()

@@ -1,7 +1,9 @@
-from pydantic import BaseModel, EmailStr, Field, field_validator, model_validator
+from pydantic import EmailStr, Field, field_validator, model_validator
+
+from .schemas import APIModel
 
 
-class CreateUser(BaseModel):
+class UserCreate(APIModel):
     username: str = Field(index=True, unique=True, min_length=5, max_length=20)
     email: EmailStr = Field(index=True, unique=True, max_length=255)
     password: str = Field(min_length=5, max_length=75)
@@ -17,7 +19,11 @@ class CreateUser(BaseModel):
         return value
 
     @model_validator(mode="after")
-    def check_passwords_match(self) -> "CreateUser":
+    def check_passwords_match(self) -> "UserCreate":
         if self.password != self.confirm_password:
             raise ValueError("Пароли не совпадают")
         return self
+
+
+class UserOut:
+    pass
