@@ -2,8 +2,11 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from api.routers import user_routers
+from core import get_settings
 from db import create_db_and_tables
-from routers import user_routers
+
+settings = get_settings()
 
 
 @asynccontextmanager
@@ -12,7 +15,12 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(
+    title=settings.PROJECT_NAME,
+    description=settings.PROJECT_DESCRIPTION,
+    version=settings.PROJECT_VERSION,
+    lifespan=lifespan,
+)
 
 app.include_router(user_routers)
 
