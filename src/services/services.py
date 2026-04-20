@@ -1,4 +1,8 @@
+from core import get_security
+from core.exceptions import UserAlreadyExistsError
 from db import DBManager
+
+security = get_security()
 
 
 class UserService:
@@ -8,7 +12,12 @@ class UserService:
     async def register(self, name: str, password: str):
         existing = await self.db.users.get_user_name(name)
         if existing:
-            raise
+            raise UserAlreadyExistsError
+        user = await self.db.users.create_user(
+            name=name, password_hash=security.hash_password(password=password)
+        )
+        await self.db.session.commit()
+        return user
 
 
 class AuthServicesJWT:

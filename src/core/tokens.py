@@ -6,7 +6,7 @@ from jose import jwt
 
 from .settings import get_settings
 
-settings = get_settings
+settings = get_settings()
 
 
 class TokenHelper:
