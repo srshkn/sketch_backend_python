@@ -2,8 +2,8 @@ from typing import Callable
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from db import SessionLocal
-from repositories import AuthRepository, UserRepository
+from src.db import SessionLocal
+from src.repositories import AuthRepository, UserRepository
 
 
 class DBManager:

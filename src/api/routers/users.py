@@ -1,10 +1,10 @@
 from fastapi import APIRouter, HTTPException, status
 
-from api import DBManagerDep
-from core.exceptions import AppError, UserAlreadyExistsError
-from db import get_session
-from schemas import UserCreate, UserOut
-from services import UserService
+from src.api import DBManagerDep
+from src.core.exceptions import AppError, UserAlreadyExistsError
+from src.db import get_session
+from src.schemas import UserCreate, UserOut
+from src.services import UserService
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 session = get_session()
@@ -18,7 +18,7 @@ session = get_session()
     summary="Регистрация пользователя",
 )
 async def register(data: UserCreate, db: DBManagerDep) -> UserOut:
-    service = UserService()
+    service = UserService(db)
     try:
         return await service.register(data.name, data.password)
     except UserAlreadyExistsError as err:

@@ -1,6 +1,6 @@
-from core import get_security
-from core.exceptions import UserAlreadyExistsError
-from db import DBManager
+from src.core import get_security
+from src.core.exceptions import UserAlreadyExistsError
+from src.db import DBManager
 
 security = get_security()
 

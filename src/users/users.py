@@ -7,9 +7,9 @@ from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 from sqlmodel import select
 
-from core import get_security, get_settings
-from db import get_session
-from models import User
+from src.core import get_security, get_settings
+from src.db import get_session
+from src.models import User
 
 # Настройки
 settings = get_settings()

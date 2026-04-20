@@ -2,9 +2,9 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from api.routers import user_routers
-from core import get_settings
-from db import create_db_and_tables
+from src.api.routers import user_routers
+from src.core import get_settings
+from src.db import create_db_and_tables
 
 settings = get_settings()
 
