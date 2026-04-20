@@ -4,8 +4,8 @@ from .schemas import APIModel
 
 
 class UserCreate(APIModel):
-    name: str = Field(index=True, unique=True, min_length=5, max_length=20)
-    email: EmailStr = Field(index=True, unique=True, max_length=255)
+    name: str = Field(min_length=5, max_length=20)
+    email: EmailStr
     password: str = Field(min_length=5, max_length=75)
     confirm_password: str = Field(min_length=5, max_length=75)
 
