@@ -33,7 +33,7 @@ class RefreshToken(Base):
         UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
     )
     usr_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("users.id", ondelete="CASCADE", nullable=False, index=True)
+        ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
     )
     token_hash: Mapped[str] = mapped_column(String(128), unique=True, nullable=False)
     created_at: Mapped[datetime] = mapped_column(

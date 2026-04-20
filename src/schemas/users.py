@@ -25,5 +25,5 @@ class UserCreate(APIModel):
         return self
 
 
-class UserOut:
+class UserOut(APIModel):
     pass
