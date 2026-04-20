@@ -1,4 +1,5 @@
 import asyncio
+import os
 from typing import AsyncGenerator
 
 import pytest
@@ -9,7 +10,13 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 from src.db import Base, get_session
 from src.main import app
 
-TEST_DATABASE_URL = "postgresql+asyncpg://test_user:test_pass@localhost:5432/test_db"
+TEST_DATABASE_URL = (
+    f"postgresql+asyncpg://{os.environ['POSTGRES_USER']}:"
+    f"{os.environ['POSTGRES_PASSWORD']}@"
+    f"{os.environ['POSTGRES_SERVER']}:"
+    f"{os.environ['POSTGRES_PORT']}/"
+    f"{os.environ['POSTGRES_DB']}"
+)
 
 test_engine = create_async_engine(TEST_DATABASE_URL, echo=False)
 TestingSessionLocal = async_sessionmaker(
