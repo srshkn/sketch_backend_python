@@ -15,7 +15,7 @@ class User(Base):
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
     )
-    username: Mapped[str] = mapped_column(TEXT, nullable=False, unique=True, index=True)
+    name: Mapped[str] = mapped_column(TEXT, nullable=False, unique=True, index=True)
     password_hash: Mapped[str] = mapped_column(String(255))
     create_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
