@@ -70,6 +70,7 @@ sketch_backend_python/
 ├── .env.example
 ├── .gitignore
 ├── .python-version
+├── docker-compose.yml
 ├── Dockerfile
 ├── LICENSE
 ├── pyproject.toml
