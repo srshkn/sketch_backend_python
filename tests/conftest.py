@@ -33,6 +33,13 @@ async def engine():
     await engine.dispose()
 
 
+@pytest_asyncio.fixture(autouse=True)
+async def clean_db(engine):
+    async with engine.begin() as conn:
+        for table in reversed(Base.metadata.sorted_tables):
+            await conn.execute(table.delete())
+
+
 @pytest_asyncio.fixture
 async def db_session(engine):
     session_factory = async_sessionmaker(
