@@ -18,11 +18,6 @@ TEST_DATABASE_URL = (
     f"{os.environ['POSTGRES_DB']}"
 )
 
-test_engine = create_async_engine(TEST_DATABASE_URL, echo=False)
-TestingSessionLocal = async_sessionmaker(
-    test_engine, class_=AsyncSession, expire_on_commit=False
-)
-
 
 @pytest.fixture(scope="session")
 def event_loop():
@@ -37,6 +32,11 @@ async def db_session() -> AsyncGenerator[AsyncSession, None]:
     Поднимает структуру БД (создает таблицы) перед каждым тестом
     и очищает их после завершения.
     """
+    test_engine = create_async_engine(TEST_DATABASE_URL, echo=False)
+    TestingSessionLocal = async_sessionmaker(
+        test_engine, class_=AsyncSession, expire_on_commit=False
+    )
+
     # Создаем все таблицы
     async with test_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
