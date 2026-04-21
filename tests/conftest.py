@@ -5,7 +5,6 @@ from typing import AsyncGenerator
 import pytest
 import pytest_asyncio
 from httpx import ASGITransport, AsyncClient
-from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 from src.db import Base, get_session
@@ -27,17 +26,6 @@ def event_loop():
     loop.close()
 
 
-async def truncate_tables(engine) -> None:
-    tables = ", ".join(
-        f'"{table.name}"' for table in reversed(Base.metadata.sorted_tables)
-    )
-    if not tables:
-        return
-
-    async with engine.begin() as conn:
-        await conn.execute(text(f"TRUNCATE TABLE {tables} RESTART IDENTITY CASCADE;"))
-
-
 @pytest_asyncio.fixture(scope="session", loop_scope="session")
 async def engine():
     engine = create_async_engine(TEST_DATABASE_URL, echo=False)
@@ -54,14 +42,7 @@ async def engine():
 
 
 @pytest_asyncio.fixture
-async def clean_db(engine):
-    await truncate_tables(engine)
-    yield
-    await truncate_tables(engine)
-
-
-@pytest_asyncio.fixture
-async def db_session(engine, clean_db):
+async def db_session(engine):
     session_factory = async_sessionmaker(
         bind=engine,
         class_=AsyncSession,
