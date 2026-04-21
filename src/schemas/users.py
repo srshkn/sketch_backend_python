@@ -26,4 +26,5 @@ class UserCreate(APIModel):
 
 
 class UserOut(APIModel):
-    pass
+    id: int
+    name: int
