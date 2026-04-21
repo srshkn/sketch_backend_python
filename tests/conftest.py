@@ -71,3 +71,14 @@ async def async_client(db_session: AsyncSession) -> AsyncGenerator[AsyncClient, 
 
     # Очищаем переопределения после теста
     app.dependency_overrides.clear()
+
+
+@pytest.fixture
+def valid_user_data() -> dict:
+    """Фикстура с валидным payload для регистрации."""
+    return {"name": "test_user", "password": "secure_password_123"}
+
+
+@pytest.fixture
+def another_user_data() -> dict:
+    return {"name": "another_user", "password": "super_secure_456"}
