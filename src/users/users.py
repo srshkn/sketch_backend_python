@@ -4,34 +4,25 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 from sqlmodel import select
 
-from src.core.settings import get_settings
-from src.database.db import get_session
-from src.database.models import User
+from src.core import get_security, get_settings
+from src.db import get_session
+from src.models import User
 
 # Настройки
 settings = get_settings()
-ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
-pwd_context = CryptContext(schemes="argon2", deprecated="auto")
+security = get_security()
+ACCESS_TOKEN_EXPIRE_MINUTES = settings.JWT_EXPIRE_MINUTES
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
-
-def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
-
-
-def get_password_hash(password):
-    return pwd_context.hash(password)
 
 
 def authenticate_user(db: Session, username: str, password: str):
     user = db.exec(select(User).where(User.username == username)).first()
     if not user:
         return False
-    if not verify_password(password, user.hashed_password):
+    if not security.verify_password(password, user.hashed_password):
         return False
     return user
 

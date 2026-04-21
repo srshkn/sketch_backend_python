@@ -1,4 +1,12 @@
-__pycache__/
-.venv/
-.env
+# Доп. приколы
 .vscode/
+.cursor/
+
+# Секретики
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache
