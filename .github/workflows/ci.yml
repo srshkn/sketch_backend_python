@@ -7,7 +7,7 @@ on:
     branches: [main, development]
 
 jobs:
-  check:
+  ruff-ci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -21,7 +21,7 @@ jobs:
           uvx ruff format --check .
   
   test:
-    needs: check
+    needs: ruff-ci
     runs-on: ubuntu-latest
 
     services:
@@ -95,8 +95,16 @@ jobs:
           cache-to: type=gha,mode=max
   
   docker-compose-ci:
+    needs: docker-build
     runs-on: ubuntu-latest
     timeout-minutes: 15
+
+    env:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_SERVER: db
 
     steps:
       - name: Checkout repository
