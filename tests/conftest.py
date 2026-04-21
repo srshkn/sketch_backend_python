@@ -1,4 +1,3 @@
-import asyncio
 import os
 from typing import AsyncGenerator
 
@@ -17,12 +16,6 @@ TEST_DATABASE_URL = (
     f"{os.environ['POSTGRES_PORT']}/"
     f"{os.environ['POSTGRES_DB']}"
 )
-
-
-@pytest.fixture(scope="session")
-def event_loop():
-    loop = asyncio.get_event_loop_policy()
-    return loop
 
 
 @pytest_asyncio.fixture(scope="session", loop_scope="session")
