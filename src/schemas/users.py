@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from pydantic import Field
 
 from .schemas import APIModel
@@ -9,5 +11,5 @@ class UserCreate(APIModel):
 
 
 class UserOut(APIModel):
-    id: int
-    name: int
+    id: UUID
+    name: str
