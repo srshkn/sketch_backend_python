@@ -16,6 +16,7 @@ session = get_session()
     status_code=status.HTTP_201_CREATED,
     response_model=UserOut,
     summary="Регистрация пользователя",
+    description="Тут пользователь регистрируется.",
 )
 async def register(data: UserCreate, db: DBManagerDep) -> UserOut:
     service = UserService(db)
