@@ -33,6 +33,14 @@ sketch_backend_python/
 │   │   ├── database.py
 │   │   └── db_manager.py
 │   │
+│   ├── migrations/
+│   │   │
+│   │   ├── versions/
+│   │   │
+│   │   ├── __init__.py
+│   │   ├── env.py
+│   │   └── script.py.mako
+│   │
 │   ├── models/
 │   │   ├── __init__.py
 │   │   └── models.py
@@ -70,6 +78,7 @@ sketch_backend_python/
 ├── .env.example
 ├── .gitignore
 ├── .python-version
+├── alembic.ini
 ├── docker-compose.yml
 ├── Dockerfile
 ├── LICENSE
